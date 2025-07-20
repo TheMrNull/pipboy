@@ -27,53 +27,20 @@ map = Image.open("hotbar/map.png")
 ctk_map = ctk.CTkImage(light_image= map, dark_image= map, size=(480, 24))
 radio = Image.open("hotbar/radio.png")
 ctk_radio = ctk.CTkImage(light_image= radio, dark_image= radio, size=(480, 24))
-# Tab-specific widgets
-tab_widgets = [
-    [  # Stat Tab
-        ctk.CTkButton(window, text="Health", command=lambda: print("Health")),
-        ctk.CTkButton(window, text="Level", command=lambda: print("Level"))
-    ],
-    [  # Inventory Tab
-        ctk.CTkButton(window, text="Weapons", command=lambda: print("Weapons")),
-        ctk.CTkButton(window, text="Apparel", command=lambda: print("Apparel"))
-    ],
-    [  # Data Tab
-        ctk.CTkButton(window, text="Quests", command=lambda: print("Quests")),
-        ctk.CTkButton(window, text="Stats", command=lambda: print("Stats"))
-    ],
-    [  # Map Tab
-        ctk.CTkButton(window, text="Local Map", command=lambda: print("Local Map")),
-        ctk.CTkButton(window, text="World Map", command=lambda: print("World Map"))
-    ],
-    [  # Radio Tab
-        ctk.CTkButton(window, text="Radio On", command=lambda: print("Radio On")),
-        ctk.CTkButton(window, text="Radio Off", command=lambda: print("Radio Off"))
-    ]
-]
+
 
 #Hotbar
 hotbar_label = ctk.CTkLabel(window, text="")
 hotbar_label.place(relx=0, rely=0)
 tabs = [ctk_stat, ctk_inv, ctk_data, ctk_map, ctk_radio]
-current_tab = [0]
+current_tab = [0]  # Use list to make it mutable in nested functions
+
+
 
 #Func to change tabs
 
-# Keep track of currently visible widgets
-visible_widgets = []
-
 def update_tab(index):
     hotbar_label.configure(image=tabs[index])
-    
-    # Hide previous tab widgets
-    for widget in visible_widgets:
-        widget.place_forget()
-    visible_widgets.clear()
-
-    # Show new tab widgets
-    for i, widget in enumerate(tab_widgets[index]):
-        widget.place(relx=0.1, rely=0.4 + i * 0.1)  # Stagger buttons vertically
-        visible_widgets.append(widget)
 def next_tab(event=None):
     current_tab[0] = (current_tab[0] + 1) % len(tabs)
     update_tab(current_tab[0])
